@@ -6,7 +6,7 @@ data "google_compute_image" "rhel9" {
 
 # Create two RHEL 9 VM instances
 resource "google_compute_instance" "rhel9_vms" {
-  count        = 2
+  count        = length(var.vm_names)
   name         = var.vm_names[count.index]
   machine_type = var.machine_type
   zone         = var.zone

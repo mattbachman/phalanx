@@ -7,7 +7,7 @@ output "vm_instances" {
       machine_type = vm.machine_type
       zone         = vm.zone
       internal_ip  = vm.network_interface[0].network_ip
-      external_ip  = vm.network_interface[0].access_config[0].nat_ip
+      external_ip  = try(vm.network_interface[0].access_config[0].nat_ip, null)
       self_link    = vm.self_link
     }
   }
@@ -20,7 +20,7 @@ output "vm_names" {
 
 output "vm_external_ips" {
   description = "External IP addresses of the VMs"
-  value       = [for vm in google_compute_instance.rhel9_vms : vm.network_interface[0].access_config[0].nat_ip]
+  value       = [for vm in google_compute_instance.rhel9_vms : try(vm.network_interface[0].access_config[0].nat_ip, null)]
 }
 
 output "vm_internal_ips" {
